@@ -16,14 +16,14 @@ with (source_root / "requirements.txt").open(encoding="utf8") as f:
 
 
 setup(
-    name="br_library_ml", 
+    name="ericpackage", 
     version="0.0.1",
     author="Eric Aderne",
     author_email="eeaderne@gmail.com",
     description="Funções da construção de um pipeline em projetos com Aprendizado e Máquina",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="git@github.com:estader/br_library_ml-sdk-package.git",
+    url="git@github.com:estader/ericpackage-sdk-package.git",
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3",
