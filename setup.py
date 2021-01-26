@@ -23,7 +23,7 @@ setup(
     description="Funções da construção de um pipeline em projetos com Aprendizado e Máquina",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="git@github.com:estader/ericpackage-sdk-package.git",
+    url="git@github.com:estader/ericpackage.git",
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3",
