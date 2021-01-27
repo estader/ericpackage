@@ -85,6 +85,10 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor=None):
             -> YeoJohnson
     """
     if forma == 'Log':
+        treino = X_train[lista_variaveis]
+        lista_variaveis = [ treino.iloc[:,i].name 
+                           for i in range(len(treino)) 
+                           if (treino.iloc[:,i] > 0).all()]
         tf = vt.LogTransformer(variables = lista_variaveis)
     elif forma == 'Reciprocal':
         tf = vt.ReciprocalTransformer(variables = lista_variaveis)
