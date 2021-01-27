@@ -105,16 +105,16 @@ def categorical_transform(X_train, X_test, y_train, lista_variaveis, forma, valo
         encoder = RareLabelEncoder(tol=0.03, n_categories=None,
                                    variables=lista_variaveis,replace_with='Rare')
         encoder.fit(X_train)
-    else: pass
+
          
     train_t = encoder.transform(X_train)
-    test_t = encoder.transform(X_test)
+
     
-    return train_t, test_t, encoder
+    return train_t, encoder
 
 
 
-def numerical_transform(X_train, X_test, y_train, lista_variaveis, forma, valor=None):
+def numerical_transform(X_train, lista_variaveis, forma, valor=None):
     """
         Tipos de transformações Numéricas:
             -> Log
@@ -133,13 +133,12 @@ def numerical_transform(X_train, X_test, y_train, lista_variaveis, forma, valor=
         tf = vt.BoxCoxTransformer(variables = lista_variaveis)
     elif forma =='YeoJohnson' :
         tf = vt.YeoJohnsonTransformer(variables =lista_variaveis)
-    else: pass
         
     tf.fit(X_train) 
     train_t = tf.transform(X_train)
-    test_t = tf.transform(X_test)
+
     
-    return train_t, test_t, tf
+    return train_t, tf
 
 
 def resampler_regression(X_train,y_train, target):
