@@ -65,8 +65,6 @@ def fillna_custom(X_train, lista_variaveis, forma, valor = None):
                                       seed='observation',seeding_method='add')
     elif forma == 'missing_indicator':
         imputer = AddMissingIndicator( variables=lista_variaveis)
-    else: 
-        imputer = MeanMedianImputer(variables=lista_variaveis)
     
     imputer.fit(X_train)              
     train_t = imputer.transform(X_train)
