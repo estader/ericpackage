@@ -1,1 +1,1 @@
-import ericpackage
+import ericmodule
