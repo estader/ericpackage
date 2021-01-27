@@ -54,7 +54,7 @@ def fs_variancia(X_train,
     X_val = X_val[X_val.columns[sel.get_support()]]
 
     print('Número de colunas depois do filtro: ' + str(len(X_train.columns)))
-    return X_train, X_val
+    return X_train, X_val, X_train.columns
 
 
 def fs_correlacao_entre_features(dataset,

@@ -99,12 +99,17 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, adiciona = False, va
         
     tf.fit(X_train)
     if adiciona == True: # Apresenta todas as colunas originais e as transformadas com sufixo:
-        X_train2 = tf.transform(X_train)
-        X_train2 = pd.concat([X_train, X_train2[lista_variaveis].add_suffix('_'+forma)], axis = 1)
+        def tf2(X_train, tf):
+            X_train2 = tf.transform(X_train)
+            X_train2 = pd.concat([X_train, X_train2[lista_variaveis].add_suffix('_'+forma)], axis = 1)
+            return X_train2
+        X_train2 = tf2(X_train, tf)
     else: # Apresenta as colunas não utilizadas e as transformadas
-        X_train2 = tf.transform(X_train)
-        
-    return X_train2, tf
+        def tf2(X_train, tf):        
+            X_train2 = tf.transform(X_train)
+            return X_train2
+        X_train2 = tf2(X_train, tf)
+    return X_train2, tf, tf2
 
 
 def fe_resampler_regression(X_train,y_train, target):

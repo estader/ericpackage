@@ -179,8 +179,8 @@ def auto_ml_regressor(X_train, X_test, y_train, y_test,
             
         
     modelos = pd.DataFrame(lista_modelos_construidos, columns=['tipo','modelo','erro_mse', 'erro_mae', 'r2', 'r2adj'])
-    melhor_modelo = modelos.sort_values(by=['r2adj'], ascending=False)
+    modelos = modelos.sort_values(by=['r2adj'], ascending=False)
     end = time.time()
     print('Tempo de execução (minutos):')
     print((end - start) / 60)
-    return melhor_modelo, modelos, lista_predicoes, top_features
+    return modelos, lista_predicoes, top_features
