@@ -49,6 +49,7 @@ def fillna_custom(X_train, lista_variaveis, forma, valor = None):
     if forma == 'mean':
         imputer = MeanMedianImputer(imputation_method='mean', variables=lista_variaveis)
         print('')
+        imputer.fit(X_train) 
     elif forma == 'median':
         imputer = MeanMedianImputer(imputation_method='median', variables=lista_variaveis)
     elif forma == 'arbitrary':
@@ -65,7 +66,7 @@ def fillna_custom(X_train, lista_variaveis, forma, valor = None):
         imputer = AddMissingIndicator( variables=lista_variaveis)
     else: pass
     
-    imputer.fit(X_train)               
+                  
     train_t = imputer.transform(X_train)
     
     return train_t, imputer
