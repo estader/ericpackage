@@ -157,10 +157,10 @@ def resampler_regression(X_train,y_train, target):
     X1_train, y_train = rs.resample(smote, base, Y_classes)
     return X1_train, y_train
 
-def feature_selection_variancia(X_train,
-                                X_val,
-                                ths_var,
-                                ver_features_selecionadas=False):
+def fs_variancia(X_train,
+                 X_val,
+                 ths_var,
+                 ver_features_selecionadas=False):
     """
         Seleção das Features a partir de um threshold estabelecido
     """
@@ -181,7 +181,7 @@ def feature_selection_variancia(X_train,
     return X_train, X_val
 
 
-def feature_selection_correlacao_entre_features(dataset,
+def fs_correlacao_entre_features(dataset,
                                                 threshold,
                                                 ver_matriz=False):
     """
@@ -285,7 +285,7 @@ def fs_kbest(X_train, X_val, target_train, target_val):
     
     return features_selecionadas_kbest
 
-def fromModel(estimador, X_train, X_val, target_train, target_val, k_max, k_min):
+def fs_fromModel(estimador, X_train, X_val, target_train, target_val, k_max, k_min):
     """
     
     """
