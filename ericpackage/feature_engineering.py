@@ -74,8 +74,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
     return train_t, encoder
 
 
-
-def fe_numerical_transform(X_train, lista_variaveis, forma, valor=None):
+def fe_numerical_transform(X_train, lista_variaveis, forma, adiciona = False, valor = None):
     """
         Tipos de transformações Numéricas:
             -> Log
@@ -84,11 +83,11 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor=None):
             -> BoxCox
             -> YeoJohnson
     """
+    
     if forma == 'Log':
         treino = X_train[lista_variaveis]
-        lista_variaveis = [ treino.iloc[:,i].name 
-                           for i in range(len(treino)) 
-                           if (treino.iloc[:,i] > 0).all()]
+        print(range(len(treino.columns)))
+        lista_variaveis = [ treino.iloc[:,i].name for i in range(len(treino.columns)) if (treino.iloc[:,i] > 0).all()]
         tf = vt.LogTransformer(variables = lista_variaveis)
     elif forma == 'Reciprocal':
         tf = vt.ReciprocalTransformer(variables = lista_variaveis)
@@ -99,11 +98,12 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor=None):
     elif forma =='YeoJohnson' :
         tf = vt.YeoJohnsonTransformer(variables = lista_variaveis)
         
-    tf.fit(X_train) 
-    train_t = tf.transform(X_train)
+    tf.fit(X_train)
+    X_train2 = tf.transform(X_train)
+    if adiciona == True:
+        X_train2 = pd.concat([X_train, X_train2.add_suffix('_'+forma)], axis = 1)
 
-    
-    return train_t, tf
+    return X_train2, tf
 
 
 def fe_resampler_regression(X_train,y_train, target):
