@@ -33,7 +33,7 @@ from sklearn.ensemble import  AdaBoostRegressor, GradientBoostingRegressor
 import time
 from sklearn.metrics import r2_score
 
-def fillna_custom(X_train, lista_variaveis, forma, valor=None):
+def fillna_custom(X_train, lista_variaveis, forma, valor = None):
     """
         Preenchimento de Missing:
             -> Média
@@ -44,8 +44,11 @@ def fillna_custom(X_train, lista_variaveis, forma, valor=None):
             -> Aleatório
             -> Indicadores de Missing
     """
+    imputer = None
+    
     if forma == 'mean':
         imputer = MeanMedianImputer(imputation_method='mean', variables=lista_variaveis)
+        print('')
     elif forma == 'median':
         imputer = MeanMedianImputer(imputation_method='median', variables=lista_variaveis)
     elif forma == 'arbitrary':
@@ -61,7 +64,7 @@ def fillna_custom(X_train, lista_variaveis, forma, valor=None):
     elif forma == 'missing_indicator':
         imputer = AddMissingIndicator( variables=lista_variaveis)
     else: pass
-           
+    
     imputer.fit(X_train)               
     train_t = imputer.transform(X_train)
     
