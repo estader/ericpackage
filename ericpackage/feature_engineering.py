@@ -86,7 +86,6 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, adiciona = False, va
     
     if forma == 'Log':
         treino = X_train[lista_variaveis]
-        print(range(len(treino.columns)))
         lista_variaveis = [ treino.iloc[:,i].name for i in range(len(treino.columns)) if (treino.iloc[:,i] > 0).all()]
         tf = vt.LogTransformer(variables = lista_variaveis)
     elif forma == 'Reciprocal':
@@ -99,10 +98,12 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, adiciona = False, va
         tf = vt.YeoJohnsonTransformer(variables = lista_variaveis)
         
     tf.fit(X_train)
-    X_train2 = tf.transform(X_train)
-    if adiciona == True:
+    if adiciona == True: # Apresenta todas as colunas originais e as transformadas com sufixo:
+        X_train2 = tf.transform(X_train[lista_variaveis])
         X_train2 = pd.concat([X_train, X_train2.add_suffix('_'+forma)], axis = 1)
-
+    else: # Apresenta as colunas não utilizadas e as transformadas
+        X_train2 = tf.transform(X_train)
+        
     return X_train2, tf
 
 
