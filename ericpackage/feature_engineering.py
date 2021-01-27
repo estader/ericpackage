@@ -45,12 +45,12 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
             -> RareLabel
     """
     if forma == 'ohe':
-        encoder = OneHotEncoder(top_categories = lista_variaveis,
-                                variables = None, drop_last=True)
+        encoder = OneHotEncoder(top_categories = None ,
+                                variables = lista_variaveis,  drop_last = True)
         encoder.fit(X_train)
     elif forma == 'CountFrequency':
         encoder = CountFrequencyEncoder(encoding_method='frequency',
-                                        variables=lista_variaveis)
+                                        variables = lista_variaveis)
         encoder.fit(X_train)
     elif forma == 'Ordinal':
         encoder = OrdinalEncoder(encoding_method='ordered',
