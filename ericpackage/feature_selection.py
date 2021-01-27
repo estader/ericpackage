@@ -34,7 +34,6 @@ import time
 from sklearn.metrics import r2_score
 
 def fs_variancia(X_train,
-                 X_val,
                  ths_var,
                  ver_features_selecionadas=False):
     """
@@ -51,10 +50,9 @@ def fs_variancia(X_train,
     else:
         pass
     X_train = X_train[X_train.columns[sel.get_support()]]
-    X_val = X_val[X_val.columns[sel.get_support()]]
 
     print('Número de colunas depois do filtro: ' + str(len(X_train.columns)))
-    return X_train, X_val, X_train.columns
+    return X_train, X_train.columns
 
 
 def fs_correlacao_entre_features(dataset,
