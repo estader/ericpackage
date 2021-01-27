@@ -44,7 +44,6 @@ def fillna_custom(X_train, lista_variaveis, forma, valor = None):
             -> Aleatório
             -> Indicadores de Missing
     """
-    imputer = None
     
     if forma == 'mean':
         imputer = MeanMedianImputer(imputation_method='mean', variables=lista_variaveis)
