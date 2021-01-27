@@ -74,7 +74,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
     return train_t, encoder
 
 
-def fe_numerical_transform(X_train, lista_variaveis, forma, adiciona = False, valor = None):
+def fe_numerical_transform(X_train, lista_variaveis, forma, valor = None):
     """
         Tipos de transformações Numéricas:
             -> Log
