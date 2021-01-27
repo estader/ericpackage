@@ -33,7 +33,7 @@ from sklearn.ensemble import  AdaBoostRegressor, GradientBoostingRegressor
 import time
 from sklearn.metrics import r2_score
 
-def fillna_custom(X_train, X_test, lista_variaveis, forma, valor=None):
+def fillna_custom(X_train, lista_variaveis, forma, valor=None):
     """
         Preenchimento de Missing:
             -> Média
@@ -64,10 +64,8 @@ def fillna_custom(X_train, X_test, lista_variaveis, forma, valor=None):
            
     imputer.fit(X_train)               
     train_t = imputer.transform(X_train)
-    test_t = imputer.transform(X_test)
     
-    return train_t, test_t, imputer
-
+    return train_t, imputer
 
 
 
