@@ -93,7 +93,7 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor=None):
     elif forma == 'BoxCox':
         tf = vt.BoxCoxTransformer(variables = lista_variaveis)
     elif forma =='YeoJohnson' :
-        tf = vt.YeoJohnsonTransformer(variables =lista_variaveis)
+        tf = vt.YeoJohnsonTransformer(variables = lista_variaveis)
         
     tf.fit(X_train) 
     train_t = tf.transform(X_train)
