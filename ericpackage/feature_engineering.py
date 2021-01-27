@@ -97,20 +97,14 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, adiciona = False, va
     elif forma =='YeoJohnson' :
         tf = vt.YeoJohnsonTransformer(variables = lista_variaveis)
         
-    tf.fit(X_train)
-    if adiciona == True: # Apresenta todas as colunas originais e as transformadas com sufixo:
-        def tf2(X_train, tf):
-            X_train2 = tf.transform(X_train)
-            X_train2 = pd.concat([X_train, X_train2[lista_variaveis].add_suffix('_'+forma)], axis = 1)
-            return X_train2
-        X_train2 = tf2(X_train, tf)
-    else: # Apresenta as colunas não utilizadas e as transformadas
-        def tf2(X_train, tf):        
-            X_train2 = tf.transform(X_train)
-            return X_train2
-        X_train2 = tf2(X_train, tf)
-    return X_train2, tf, tf2
+    tf.fit(X_train)        
+    X_train2 = tf.transform(X_train)
+        
+    return X_train2, tf, lista_variaveis
 
+def original_e_transformada(X_train,X_train2, lista_variaveis, sufixo):
+    X_train2 = pd.concat([X_train, X_train2[lista_variaveis].add_suffix('_'+sufixo)], axis = 1)
+    return X_train2
 
 def fe_resampler_regression(X_train,y_train, target):
     base = pd.concat([X_train,y_train],axis=1)
