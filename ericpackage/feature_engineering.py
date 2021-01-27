@@ -34,7 +34,7 @@ import time
 from sklearn.metrics import r2_score
 
 
-def fe_categorical_transform(X_train, X_test, y_train, lista_variaveis, forma, valor=None):
+def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=None):
     """
         Tipos de transformações categóricas:
             -> One Hot Encoding
