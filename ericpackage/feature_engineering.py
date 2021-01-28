@@ -100,10 +100,10 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor = None):
     tf.fit(X_train)        
     X_train2 = tf.transform(X_train)
         
-    return X_train2, tf, lista_variaveis
+    return X_train2[lista_variaveis].add_suffix('_'+forma), tf
 
-def original_e_transformada(X_train,X_train2, lista_variaveis, sufixo):
-    X_train2 = pd.concat([X_train, X_train2[lista_variaveis].add_suffix('_'+sufixo)], axis = 1)
+def original_e_transformada(X_train,X_train2):
+    X_train2 = pd.concat([X_train, X_train2], axis = 1)
     return X_train2
 
 def fe_resampler_regression(X_train,y_train, target):
