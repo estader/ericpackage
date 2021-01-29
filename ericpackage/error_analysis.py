@@ -15,9 +15,9 @@ def decomposicao_bias_variancia(modelo, X_train, y_train, X_test, y_test):
     return
 
 
-def report_features_erros_modelos(modelos, X_test, y_test, lista_predicoes, top_features, target):
+def report_features_erros_modelos(modelos, X_val, y_val, lista_predicoes, top_features, target):
     df_predicoes = pd.concat(lista_predicoes, axis=1)
-    df_predicoes = pd.concat([df_predicoes, y_test.reset_index(drop=True)], axis=1)
+    df_predicoes = pd.concat([df_predicoes, y_val.reset_index(drop=True)], axis=1, join='inner')
     df_predicoes = pd.concat([X_test[top_features], df_predicoes], axis=1)
     
     for i in list(modelos.tipo):
@@ -31,10 +31,7 @@ def report_features_erros_modelos(modelos, X_test, y_test, lista_predicoes, top_
     ax1.set_title('Valores reais e previsões');
     
     plt.figure(figsize=(10,10))
-    #ax1 = sns.distplot(y_train/1000,  bins = 100, hist=True,kde=False,rug=False,fit=None,hist_kws=None,kde_kws=None,
-    #                  rug_kws=None,fit_kws=None,color=None,vertical=False, norm_hist=False, axlabel=None,label=None, ax=None)
     ax1 = sns.lineplot(data = df_predicoes, x = target, y=modelos.tipo.iloc[0]+'_real_dif')
-
-    ax1.set_title('');
+    ax1.set_title('Erros x faixa do target');
     
     return df_predicoes.sort_values(modelos.iloc[0,0]+'_real_dif',ascending=False).head(10)
