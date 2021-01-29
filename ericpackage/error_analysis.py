@@ -17,7 +17,7 @@ def decomposicao_bias_variancia(modelo, X_train, y_train, X_test, y_test):
 
 def report_features_erros_modelos(modelos, X_test, y_test, lista_predicoes, top_features, target):
     df_predicoes = pd.concat(lista_predicoes, axis=1)
-    df_predicoes = pd.concat([df_predicoes, y_test], axis=1)
+    df_predicoes = pd.concat([df_predicoes, y_test.reset_index(drop=True)], axis=1)
     df_predicoes = pd.concat([X_test[top_features], df_predicoes], axis=1)
     
     for i in list(modelos.tipo):
