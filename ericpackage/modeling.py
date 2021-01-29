@@ -165,7 +165,7 @@ def auto_ml_regressor(X_train, X_test, y_train, y_test,
             else:
                 y_pred = regressor.predict(X_test)
                 
-            y_pred = pd.DataFrame(y_pred, columns = [i])
+            y_pred = pd.DataFrame(y_pred.round(decimal = 2), columns = [i])
             lista_predicoes.append(y_pred)
         
             erro_mse = round(mean_squared_error(y_test, y_pred, squared=False),2)

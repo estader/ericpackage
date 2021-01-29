@@ -49,7 +49,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
                                 variables = lista_variaveis,  drop_last = True)
         encoder.fit(X_train)
     elif forma == 'CountFrequency':
-        encoder = CountFrequencyEncoder(encoding_method='frequency',
+        encoder = CountFrequencyEncoder(encoding_method='count',
                                         variables = lista_variaveis)
         encoder.fit(X_train)
     elif forma == 'Ordinal':
@@ -63,7 +63,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
         encoder = DecisionTreeEncoder(variables=lista_variaveis , random_state=0)
         encoder.fit(X_train, y_train)
     elif forma =='RareLabel' :
-        encoder = RareLabelEncoder(tol=0.03, n_categories=None,
+        encoder = RareLabelEncoder(tol=0.05, n_categories=3,
                                    variables=lista_variaveis,replace_with='Rare')
         encoder.fit(X_train)
 
