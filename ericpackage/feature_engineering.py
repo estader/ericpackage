@@ -89,12 +89,17 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor = None):
         lista_variaveis = [ treino.iloc[:,i].name for i in range(len(treino.columns)) if (treino.iloc[:,i] > 0).all()]
         tf = vt.LogTransformer(variables = lista_variaveis)
     elif forma == 'Reciprocal':
+        treino = X_train[lista_variaveis]
+        lista_variaveis = [ treino.iloc[:,i].name for i in range(len(treino.columns)) if (treino.iloc[:,i] != 0).all()]
+        print(lista_variaveis)
         tf = vt.ReciprocalTransformer(variables = lista_variaveis)
     elif forma == 'Power':
         tf = vt.PowerTransformer(variables = lista_variaveis, exp = valor)
     elif forma == 'BoxCox':
+        treino = X_train[lista_variaveis]
+        lista_variaveis = [ treino.iloc[:,i].name for i in range(len(treino.columns)) if (treino.iloc[:,i] > 0).all()]
         tf = vt.BoxCoxTransformer(variables = lista_variaveis)
-    elif forma =='YeoJohnson' :
+    elif forma =='YeoJohnson':
         tf = vt.YeoJohnsonTransformer(variables = lista_variaveis)
         
     tf.fit(X_train)        
