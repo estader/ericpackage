@@ -84,8 +84,8 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor = None):
             -> YeoJohnson
     """
     
-    lista_variaveis = list(X_train.select_dtypes(include=['int64', 'float64']).columns)
-    print(lista_variaveis)
+    lista_num = list(X_train.select_dtypes(include=['int64', 'float64']).columns)
+    lista_variaveis = [i for i in lista_variaveis if i in lista_num]
     
     if forma == 'Log':
         treino = X_train[lista_variaveis]
