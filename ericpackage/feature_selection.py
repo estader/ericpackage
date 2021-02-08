@@ -33,8 +33,10 @@ from sklearn.ensemble import  AdaBoostRegressor, GradientBoostingRegressor
 import time
 from sklearn.metrics import r2_score
 from sklearn.linear_model import LinearRegression
-from feature_engine.selection import *
-
+from feature_engine.selection import DropFeatures, DropConstantFeatures
+from feature_engine.selection import DropDuplicateFeatures, DropCorrelatedFeatures, SmartCorrelatedSelection
+from feature_engine.selection import SelectByShuffling, SelectBySingleFeaturePerformance
+from feature_engine.selection import RecursiveFeatureElimination, RecursiveFeatureAddition
 
 def fs_general(X_train, y_train, lista_features, modo, forma, valor):
     """
