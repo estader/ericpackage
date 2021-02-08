@@ -98,17 +98,16 @@ def fs_general(X_train, y_train, lista_features, modo, forma, valor):
 
     #     sel.fit(X_train, y_train)
     elif forma =='RFE':
-        transform = RecursiveFeatureElimination(estimator=RandomForestRegressor(), scoring="r2", cv=3)
+        transform = RecursiveFeatureElimination(estimator = RandomForestRegressor(),
+                                                variables = lista_features,
+                                                scoring="r2", cv=3)
         transform.fit(X_train, y_train)
-    # elif forma =='RFA':
-    #     # initialize linear regresion estimator
-    #     linear_model = LinearRegression()
+    elif forma =='RFA':
         
-    #     # initialize feature selector
-    #     tr = RecursiveFeatureAddition(estimator=linear_model, scoring="r2", cv=3)
-        
-    #     # fit transformer
-    #     Xt = tr.fit_transform(X, y)
+        transform.RecursiveFeatureAddition(estimator=RandomForestRegressor(),
+                                           variables=lista_features,
+                                           scoring="r2", cv=3)
+        transform.fit(X_train, y_train)
         
     train_t = transformer.transform(X_train)
     return train_t, transformer
