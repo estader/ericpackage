@@ -32,6 +32,87 @@ from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor
 from sklearn.ensemble import  AdaBoostRegressor, GradientBoostingRegressor
 import time
 from sklearn.metrics import r2_score
+from sklearn.linear_model import LinearRegression
+from feature_engine.selection import *
+
+
+def fs_general(X_train, y_train, lista_features, modo, forma, valor):
+    """
+    
+    
+    """
+    if forma == 'DropFeatures':
+        transformer = DropFeatures(features_to_drop=lista_features)
+        transformer.fit(X_train)
+
+    elif forma == 'DropConstantFeatures':
+        transformer = DropConstantFeatures(tol=valor, variables = lista_features,
+                                           missing_values='ignore')
+        transformer.fit(X_train)
+        
+    elif forma =='DropDuplicateFeatures':    
+        transformer = DropDuplicateFeatures(variables=lista_features, missing_values='ignnore')
+        transformer.fit(X_train)
+        
+    elif forma =='DropCorrelatedFeatures':
+        transformer = DropCorrelatedFeatures(variables=lista_features, method='pearson', threshold=valor)
+        transformer.fit(X_train)
+        
+    elif forma =='SmartCorrelatedSelection':    
+        transformer = SmartCorrelatedSelection(variables = lista_features,
+                                               method="pearson",
+                                               threshold=0.8,
+                                               missing_values="raise",
+                                               selection_method="variance",
+                                               estimator=None)
+        transformer.fit(X_train)
+        
+    elif forma == 'SelectByShuffling':
+        if modo == 'regression':
+            transformer = SelectByShuffling(variables = lista_features,
+                                            estimator=RandomForestRegressor(),
+                                            scoring="r2", random_state = 0)
+        else:
+            transformer = SelectByShuffling(variables = lista_features,
+                                            random_state = 0)
+        transformer.fit(X_train, y_train)
+        
+    elif forma =='SelectBySingleFeaturePerformance':
+        if modo =='regression':
+            transformer = SelectBySingleFeaturePerformance(estimator=RandomForestRegressor(),
+                                                   scoring="r2",threshold=0.01)
+        else:
+            transformer = SelectBySingleFeaturePerformance(threshold=0.01)
+        transformer.fit(X_train, y_train)
+        
+    # elif forma == 'SelectByTargetMeanPerformance':
+    #     sel = SelectByTargetMeanPerformance(
+    #                                         variables=None,
+    #                                         scoring="roc_auc_score",
+    #                                         threshold=0.6,
+    #                                         bins=3,
+    #                                         strategy="equal_frequency",
+    #                                         cv=2,# cross validation
+    #                                         random_state=1, #seed for reproducibility
+    #                                     )
+
+    #     sel.fit(X_train, y_train)
+    elif forma =='RFE':
+        transform = RecursiveFeatureElimination(estimator=RandomForestRegressor(), scoring="r2", cv=3)
+        transform.fit(X_train, y_train)
+    # elif forma =='RFA':
+    #     # initialize linear regresion estimator
+    #     linear_model = LinearRegression()
+        
+    #     # initialize feature selector
+    #     tr = RecursiveFeatureAddition(estimator=linear_model, scoring="r2", cv=3)
+        
+    #     # fit transformer
+    #     Xt = tr.fit_transform(X, y)
+        
+    train_t = transformer.transform(X_train)
+    return train_t, transformer
+
 
 def fs_variancia(X_train,
                  ths_var,
