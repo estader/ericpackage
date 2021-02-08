@@ -112,7 +112,8 @@ def fs_general(X_train, y_train, lista_features, modo, forma, valor):
         transformer.fit(X_train, y_train)
         
     train_t = transformer.transform(X_train)
-    return train_t, transformer
+    features_selecionadas = list(train_t.columns)
+    return train_t, features_selecionadas
 
 
 def fs_variancia(X_train,
