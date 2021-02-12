@@ -178,10 +178,10 @@ def auto_ml_regressor(X_train, X_test, y_train, y_test,
             
             lista_modelos_construidos.append([i, regressor, erro_mse, erro_mae, r2, r2adj, top_features])
             
-        
+    df_predicoes = pd.concat(lista_predicoes, axis=1)
     modelos = pd.DataFrame(lista_modelos_construidos, columns=['tipo','modelo','erro_mse', 'erro_mae', 'r2', 'r2adj','top_features'])
     modelos = modelos.sort_values(by=['r2adj'], ascending=False)
     end = time.time()
     print('Tempo de execução (minutos):')
     print((end - start) / 60)
-    return modelos, lista_predicoes
+    return modelos, df_predicoes

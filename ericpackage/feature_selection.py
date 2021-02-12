@@ -63,7 +63,7 @@ def fs_general(X_train, y_train, lista_features, modo, forma, valor):
     elif forma =='SmartCorrelatedSelection':    
         transformer = SmartCorrelatedSelection(variables = lista_features,
                                                method="pearson",
-                                               threshold=0.8,
+                                               threshold=valor,
                                                missing_values="raise",
                                                selection_method="variance",
                                                estimator=None)
