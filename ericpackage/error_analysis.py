@@ -16,8 +16,9 @@ def decomposicao_bias_variancia(modelo, X_train, y_train, X_test, y_test):
 
 
 def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target):
+    top_features = modelos.top_features.iloc[0].strip('][').replace("'",'').split(', ') 
     df_predicoes = pd.concat([df_predicoes, y_val.reset_index(drop=True)], axis=1, join='inner')
-    df_predicoes = pd.concat([X_val[modelos.top_features.iloc[0]].reset_index(drop=True), df_predicoes], axis=1)
+    df_predicoes = pd.concat([X_val[top_features].reset_index(drop=True), df_predicoes], axis=1)
     
     for i in list(modelos.tipo):
         df_predicoes[i+'_real_dif'] = df_predicoes.apply(lambda x: abs(x[i] - x[target]), axis=1)
