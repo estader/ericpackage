@@ -26,7 +26,6 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target):
     plt.figure(figsize=(10,10))
     plt.rcParams['font.size'] = 10
     ax1 = sns.scatterplot(data = df_predicoes,sizes=20, x=target, y=modelos.tipo.iloc[0], alpha=0.5, s=15)
-    print(int(df_predicoes[target].max()))
     ax1.plot([0,int(df_predicoes[target].max())],[0,int(df_predicoes[target].max())], '--')
     ax1.set_title('Valores reais e previsões');
     
