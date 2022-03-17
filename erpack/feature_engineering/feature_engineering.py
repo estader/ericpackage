@@ -63,7 +63,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
         encoder = DecisionTreeEncoder(variables=lista_variaveis , random_state=0)
         encoder.fit(X_train, y_train)
     elif forma =='RareLabel' :
-        encoder = RareLabelEncoder(tol=valor, n_categories=2,
+        encoder = RareLabelEncoder(tol=valor, n_categories=1,
                                    variables=lista_variaveis,replace_with='Rare')
         encoder.fit(X_train)
 
