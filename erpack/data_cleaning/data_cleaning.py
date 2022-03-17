@@ -48,33 +48,29 @@ def dc_fillna_custom(X_train, lista_variaveis, forma, valor = None):
     print(forma)
     print('Imputação nas variáveis:')
     print(lista_variaveis)
-    
-    if len(lista_variaveis)!=0:
 
-        if forma == 'mean':
-            imputer = MeanMedianImputer(imputation_method='mean', variables=lista_variaveis)       
-        elif forma == 'median':
-            imputer = MeanMedianImputer(imputation_method='median', variables=lista_variaveis)
-        elif forma == 'arbitrary':
-            imputer = ArbitraryNumberImputer(arbitrary_number = valor, variables=lista_variaveis)
-        elif forma == 'endtail':
-            imputer = EndTailImputer(imputation_method='gaussian', tail='right',
-                                            fold=3, variables=lista_variaveis)
-        elif forma == 'categorical':
-            imputer = CategoricalImputer(variables=lista_variaveis)
-        elif forma == 'RandomSample':
-            imputer = RandomSampleImputer(random_state=lista_variaveis,
-                                            seed='observation',seeding_method='add')
-        elif forma == 'missing_indicator':
-            imputer = AddMissingIndicator( variables=lista_variaveis)
+    if forma == 'mean':
+        imputer = MeanMedianImputer(imputation_method='mean', variables=lista_variaveis)       
+    elif forma == 'median':
+        imputer = MeanMedianImputer(imputation_method='median', variables=lista_variaveis)
+    elif forma == 'arbitrary':
+        imputer = ArbitraryNumberImputer(arbitrary_number = valor, variables=lista_variaveis)
+    elif forma == 'endtail':
+        imputer = EndTailImputer(imputation_method='gaussian', tail='right',
+                                        fold=3, variables=lista_variaveis)
+    elif forma == 'categorical':
+        imputer = CategoricalImputer(variables=lista_variaveis)
+    elif forma == 'RandomSample':
+        imputer = RandomSampleImputer(random_state=lista_variaveis,
+                                        seed='observation',seeding_method='add')
+    elif forma == 'missing_indicator':
+        imputer = AddMissingIndicator( variables=lista_variaveis)
 
-        imputer.fit(X_train)              
-        train_t = imputer.transform(X_train)
+    imputer.fit(X_train)              
+    train_t = imputer.transform(X_train)
 
-        return train_t, imputer
-
-    else:
-        return 
+    return train_t, imputer
+ 
 
     
     
