@@ -32,6 +32,8 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target):
     plt.figure(figsize=(10,10))
     ax1 = sns.lineplot(data = df_predicoes, x = target, y=modelos.tipo.iloc[0]+'_real_dif')
     ax1.set_title('Erros x faixa do target')
-    
-    return df_predicoes.sort_values(modelos.iloc[0,0]+'_real_dif',ascending=False).head(10)
 
+    melhores_pred =df_predicoes.sort_values(modelos.iloc[0,0]+'_real_dif',ascending=False).head(10)
+    piores_pred = df_predicoes.sort_values(modelos.iloc[0,0]+'_real_dif',ascending=False).head(10)
+
+    return melhores_pred, piores_pred
