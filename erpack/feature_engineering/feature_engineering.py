@@ -51,7 +51,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
         encoder.fit(X_train)
     elif forma == 'CountFrequency':
         print(lista_variaveis)
-        encoder = CountFrequencyEncoder(encoding_method='count',
+        encoder = CountFrequencyEncoder(encoding_method='frequency',
                                         variables = lista_variaveis,
                                         errors='ignore')
         encoder.fit(X_train)
