@@ -49,34 +49,38 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
         encoder = OneHotEncoder(top_categories = None ,
                                 variables = lista_variaveis,  drop_last = True)
         encoder.fit(X_train)
+        train_t = encoder.transform(X_train)
     elif forma == 'CountFrequency':
         print(lista_variaveis)
         encoder = CountFrequencyEncoder(encoding_method='frequency',
                                         variables = lista_variaveis,
                                         errors='ignore')
         encoder.fit(X_train)
+        train_t = encoder.transform(X_train)
+        train_t = pd.concat([X_train[~lista_variaveis], train_t[lista_variaveis].add_suffix('_CountFrequency')], axis = 1)
+
     elif forma == 'Ordinal':
         print(lista_variaveis)
         encoder = OrdinalEncoder(encoding_method='ordered',
                                  variables=lista_variaveis)
         encoder.fit(X_train, y_train)
+        train_t = encoder.transform(X_train)
     elif forma == 'Mean':
         print(lista_variaveis)
         encoder = MeanEncoder(variables=lista_variaveis )
         encoder.fit(X_train, y_train)
+        train_t = encoder.transform(X_train)
     elif forma == 'DecisionTree':
         print(lista_variaveis)
         encoder = DecisionTreeEncoder(variables=lista_variaveis , random_state=0)
         encoder.fit(X_train, y_train)
+        train_t = encoder.transform(X_train)
     elif forma =='RareLabel' :
         print(lista_variaveis)
         encoder = RareLabelEncoder(tol=valor, n_categories=3,
                                    variables=lista_variaveis,replace_with='Rare')
         encoder.fit(X_train)
-
-         
-    train_t = encoder.transform(X_train)
-
+        train_t = encoder.transform(X_train)
     
     return train_t, encoder, lista_variaveis
 
