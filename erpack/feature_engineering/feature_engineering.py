@@ -120,8 +120,11 @@ def fe_numerical_transform(X_train, lista_variaveis, forma, valor = None):
         
     return X_train2, tf, lista_variaveis
 
-def original_e_transformada(X_train,X_train2, lista_variaveis, sufixo):
-    X_train2 = pd.concat([X_train, X_train2[lista_variaveis].add_suffix('_'+sufixo)], axis = 1)
+def original_e_transformada(X_train,X_train2, lista_variaveis,sufixo):
+    if sufixo !='':
+        X_train2 = pd.concat([X_train, X_train2[lista_variaveis].add_suffix('_'+sufixo)], axis = 1)
+    else:
+        X_train2 = pd.concat([X_train, X_train2[lista_variaveis]], axis = 1)
     return X_train2
 
 def fe_resampler_regression(X_train,y_train, target):
