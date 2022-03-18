@@ -71,7 +71,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
     elif forma =='RareLabel' :
         print(lista_variaveis)
         encoder = RareLabelEncoder(tol=valor, n_categories=3,
-                                   variables=lista_variaveis,replace_with='Rare')
+                                   variables=lista_variaveis,replace_with=float)
         encoder.fit(X_train)
 
          
