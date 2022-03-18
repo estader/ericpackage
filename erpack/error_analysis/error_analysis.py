@@ -27,11 +27,11 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target):
     plt.rcParams['font.size'] = 10
     ax1 = sns.scatterplot(data = df_predicoes,sizes=20, x=target, y=modelos.tipo.iloc[0], alpha=0.5, s=15)
     ax1.plot([0,int(df_predicoes[target].max())],[0,int(df_predicoes[target].max())], '--')
-    ax1.set_title('Valores reais e previsões');
+    ax1.set_title('Valores reais e previsões')
     
     plt.figure(figsize=(10,10))
     ax1 = sns.lineplot(data = df_predicoes, x = target, y=modelos.tipo.iloc[0]+'_real_dif')
-    ax1.set_title('Erros x faixa do target');
+    ax1.set_title('Erros x faixa do target')
     
     return df_predicoes.sort_values(modelos.iloc[0,0]+'_real_dif',ascending=False).head(10)
 
