@@ -82,7 +82,7 @@ def plot_feature_importance(importance,names,model_type):
     fi_df = fi_df.head(15)
 
     # Definição dos tamanhos do Bar plot
-    plt.figure(figsize=(15,10))
+    plt.figure(figsize=(10,10))
     plt.rcParams['font.size'] = 10
     
     # Plot Searborn bar chart
