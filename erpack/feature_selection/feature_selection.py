@@ -125,6 +125,7 @@ def fs_variancia(X_train,
     print('Número de colunas antes do filtro: ' + str(len(X_train.columns)))
     print('Ths. recebido:' + str(ths_var))
 
+
     sel = VarianceThreshold(threshold=ths_var)
     sel.fit(X_train)
     if ver_features_selecionadas == True:

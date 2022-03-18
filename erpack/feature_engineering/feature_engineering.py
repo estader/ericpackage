@@ -57,7 +57,8 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
                                         errors='ignore')
         encoder.fit(X_train)
         train_t = encoder.transform(X_train)
-        train_t = pd.concat([X_train.drop(lista_variaveis, axis=1), train_t.add_suffix('_CountFrequency')], axis = 1)
+        #train_t = pd.concat([X_train.drop(lista_variaveis, axis=1), train_t.add_suffix('_CountFrequency')], axis = 1)
+        train_t = train_t.add_suffix('_CountFrequency')
 
     elif forma == 'Ordinal':
         print(lista_variaveis)
