@@ -77,7 +77,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
     train_t = encoder.transform(X_train)
 
     
-    return train_t, encoder
+    return train_t, encoder, lista_variaveis
 
 
 def fe_numerical_transform(X_train, lista_variaveis, forma, valor = None):
