@@ -52,7 +52,8 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
     elif forma == 'CountFrequency':
         print(lista_variaveis)
         encoder = CountFrequencyEncoder(encoding_method='count',
-                                        variables = lista_variaveis)
+                                        variables = lista_variaveis,
+                                        errors='ignore')
         encoder.fit(X_train)
     elif forma == 'Ordinal':
         print(lista_variaveis)
@@ -69,7 +70,7 @@ def fe_categorical_transform(X_train, y_train, lista_variaveis, forma, valor=Non
         encoder.fit(X_train, y_train)
     elif forma =='RareLabel' :
         print(lista_variaveis)
-        encoder = RareLabelEncoder(tol=valor, n_categories=1,
+        encoder = RareLabelEncoder(tol=valor, n_categories=3,
                                    variables=lista_variaveis,replace_with='Rare')
         encoder.fit(X_train)
 
