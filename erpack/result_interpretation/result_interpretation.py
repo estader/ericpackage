@@ -11,7 +11,8 @@ def ri_lime_tabular(X_train, X_test, modelo, index_sample, class_names, modo = '
     explainer = lime.lime_tabular.LimeTabularExplainer(X_train.values, feature_names = X_train.columns.values,
                                                        class_names= class_names,
                                                        verbose=True,
-                                                       mode=modo)
+                                                       mode=modo,
+                                                       random_state=0)
 
     if modo =='regression':
         exp = explainer.explain_instance(X_test.iloc[index_sample], modelo.predict,
