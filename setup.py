@@ -11,7 +11,7 @@ setup(
     version="0.0.1",
     author="Eric Aderne",
     author_email="eeaderne@gmail.com",
-    description='Data Science PaSckage',
+    description='Data Science Package',
     url="git@github.com:estader/ericpackage",
     install_requires=requirements,
     license='unlicense',
