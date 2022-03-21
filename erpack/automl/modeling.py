@@ -139,11 +139,11 @@ def auto_ml_classifier(X_train, X_test, y_train, y_test,
             else:
                 if type_search == 'gridsearch':
                     classifier = GridSearchCV(classifier, param_grid = param_grid[i], cv = 3, verbose=1,
-                                             n_jobs=-1, scoring='')
+                                             n_jobs=-1, scoring='f1')
                 elif type_search =='randomsearch':
                     classifier = RandomizedSearchCV(classifier, param_distributions = param_grid[i],
                                                    n_iter = 10, cv=3, verbose=3,
-                                                   n_jobs=-1, scoring='',
+                                                   n_jobs=-1, scoring='f1',
                                                    random_state=0)
                 else: pass
 
