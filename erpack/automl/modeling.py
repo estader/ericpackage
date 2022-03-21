@@ -180,94 +180,94 @@ def auto_ml_classifier(X_train, X_test, y_train, y_test,
     return modelos, df_predicoes
 
 
-    def auto_ml_regressor(X_train, X_test, y_train, y_test,
+def auto_ml_regressor(X_train, X_test, y_train, y_test,
                       algoritmos = ['randomforest', 'extratree','gbm',
                                     'adaboost','xgboost'],
                       search = False, type_search = None, target_transform = None):
     
-        # Início do cronômetro:
-        start = time.time()
-        
-        # Dicionário com a lista de modelos com configuração padrão:
-        lista_modelos = {
-                        'randomforest': RandomForestRegressor(random_state=0, n_jobs=-1),
-                        'extratree': ExtraTreesRegressor(random_state=0, n_jobs=-1),
-                        'adaboost':AdaBoostRegressor(random_state=0),
-                        'gbm':GradientBoostingRegressor(),
-                        'xgboost': XGBRegressor(random_state=0)
-                        }
-        
-        # Dicionário com os parâmetros a serem testados no RandomSearch
-        param_grid = {
-                    'randomforest': {'n_estimators' : [200], 'max_depth': [5,20, None]},
-                    'extratree': {'n_estimators' : [200], 'max_depth': [5,20, None]},
-                    'adaboost':{'n_estimators':[200], 'learning_rate':[1,0.1,0.01,0.5,0.05]},
-                    'gbm':{'n_estimators':[200], 'subsample' :[0.8,1], 'learning_rate':[1,0.1,0.01,0.001]},
-                    'xgboost':{'n_estimators':[200,400],'eta': [0.001,0.01, 0.1, 1],'max_depth': [5,20],'subsample':[0.8,1]}
+    # Início do cronômetro:
+    start = time.time()
+    
+    # Dicionário com a lista de modelos com configuração padrão:
+    lista_modelos = {
+                    'randomforest': RandomForestRegressor(random_state=0, n_jobs=-1),
+                    'extratree': ExtraTreesRegressor(random_state=0, n_jobs=-1),
+                    'adaboost':AdaBoostRegressor(random_state=0),
+                    'gbm':GradientBoostingRegressor(),
+                    'xgboost': XGBRegressor(random_state=0)
                     }
+    
+    # Dicionário com os parâmetros a serem testados no RandomSearch
+    param_grid = {
+                'randomforest': {'n_estimators' : [200], 'max_depth': [5,20, None]},
+                'extratree': {'n_estimators' : [200], 'max_depth': [5,20, None]},
+                'adaboost':{'n_estimators':[200], 'learning_rate':[1,0.1,0.01,0.5,0.05]},
+                'gbm':{'n_estimators':[200], 'subsample' :[0.8,1], 'learning_rate':[1,0.1,0.01,0.001]},
+                'xgboost':{'n_estimators':[200,400],'eta': [0.001,0.01, 0.1, 1],'max_depth': [5,20],'subsample':[0.8,1]}
+                }
+    
+    # 'criterion':['mse', 'mae'],
+    # 'min_samples_split':[2,5],'min_samples_leaf':[1,2,3],'max_features':['auto', 'sqrt', 'log2']
+
+    lista_modelos_construidos=[]
+    lista_predicoes=[]
+    for i in lista_modelos.keys():
+        if i in algoritmos:
+            print(i)
+
+            regressor = lista_modelos[i]
         
-        # 'criterion':['mse', 'mae'],
-        # 'min_samples_split':[2,5],'min_samples_leaf':[1,2,3],'max_features':['auto', 'sqrt', 'log2']
+            if search == False:
+                regressor.fit(X_train, y_train)
+                importances = regressor.feature_importances_
+                top_features = plot_feature_importance(importances,X_test.columns, i)
 
-        lista_modelos_construidos=[]
-        lista_predicoes=[]
-        for i in lista_modelos.keys():
-            if i in algoritmos:
-                print(i)
+            else:
+                if type_search == 'gridsearch':
+                    regressor = GridSearchCV(regressor, param_grid = param_grid[i], cv = 3, verbose=1,
+                                            n_jobs=-1, scoring='neg_mean_absolute_error')
+                elif type_search =='randomsearch':
+                    regressor = RandomizedSearchCV(regressor, param_distributions = param_grid[i],
+                                                n_iter = 10, cv=3, verbose=3,
+                                                n_jobs=-1, scoring='neg_mean_absolute_error',
+                                                random_state=0)
+                else: pass
 
+                regressor.fit(X_train, y_train)
+                print(regressor.best_params_)
+                params = regressor.best_params_
+                
                 regressor = lista_modelos[i]
-            
-                if search == False:
-                    regressor.fit(X_train, y_train)
-                    importances = regressor.feature_importances_
-                    top_features = plot_feature_importance(importances,X_test.columns, i)
-
-                else:
-                    if type_search == 'gridsearch':
-                        regressor = GridSearchCV(regressor, param_grid = param_grid[i], cv = 3, verbose=1,
-                                                n_jobs=-1, scoring='neg_mean_absolute_error')
-                    elif type_search =='randomsearch':
-                        regressor = RandomizedSearchCV(regressor, param_distributions = param_grid[i],
-                                                    n_iter = 10, cv=3, verbose=3,
-                                                    n_jobs=-1, scoring='neg_mean_absolute_error',
-                                                    random_state=0)
-                    else: pass
-
-                    regressor.fit(X_train, y_train)
-                    print(regressor.best_params_)
-                    params = regressor.best_params_
-                    
-                    regressor = lista_modelos[i]
-                    regressor.set_params(**params)
-                    regressor.fit(X_train, y_train)
-                    importances = regressor.feature_importances_
-                    top_features = plot_feature_importance(importances,X_test.columns, i)
-                    
-                if target_transform != None:
-                    # invert transform on predictions
-                    yhat = regressor.predict(X_test)
-                    print(yhat[0])
-                    y_pred = target_transform.inverse_transform(yhat.reshape(-1,1))
-                    print(y_pred[0])
-                else:
-                    y_pred = regressor.predict(X_test)
-                    
-                y_pred = pd.DataFrame(y_pred, columns = [i])
-                lista_predicoes.append(y_pred)
-            
-                erro_mse = round(mean_squared_error(y_test, y_pred, squared=False),2)
-                erro_mae = round(mean_absolute_error(y_test, y_pred),2)
-                r2 = r2_score(y_test, y_pred)
-                n = len(y_pred)
-                p = len(X_test.columns)
-                r2adj = 1-(1-r2)*(n-1)/(n-p-1)
+                regressor.set_params(**params)
+                regressor.fit(X_train, y_train)
+                importances = regressor.feature_importances_
+                top_features = plot_feature_importance(importances,X_test.columns, i)
                 
-                lista_modelos_construidos.append([i, regressor, erro_mse, erro_mae, r2, r2adj, top_features])
+            if target_transform != None:
+                # invert transform on predictions
+                yhat = regressor.predict(X_test)
+                print(yhat[0])
+                y_pred = target_transform.inverse_transform(yhat.reshape(-1,1))
+                print(y_pred[0])
+            else:
+                y_pred = regressor.predict(X_test)
                 
-        df_predicoes = pd.concat(lista_predicoes, axis=1)
-        modelos = pd.DataFrame(lista_modelos_construidos, columns=['tipo','modelo','erro_mse', 'erro_mae', 'r2', 'r2adj','top_features'])
-        modelos = modelos.sort_values(by=['r2adj'], ascending=False)
-        end = time.time()
-        print('Tempo de execução (minutos):')
-        print((end - start) / 60)
-        return modelos, df_predicoes
+            y_pred = pd.DataFrame(y_pred, columns = [i])
+            lista_predicoes.append(y_pred)
+        
+            erro_mse = round(mean_squared_error(y_test, y_pred, squared=False),2)
+            erro_mae = round(mean_absolute_error(y_test, y_pred),2)
+            r2 = r2_score(y_test, y_pred)
+            n = len(y_pred)
+            p = len(X_test.columns)
+            r2adj = 1-(1-r2)*(n-1)/(n-p-1)
+            
+            lista_modelos_construidos.append([i, regressor, erro_mse, erro_mae, r2, r2adj, top_features])
+            
+    df_predicoes = pd.concat(lista_predicoes, axis=1)
+    modelos = pd.DataFrame(lista_modelos_construidos, columns=['tipo','modelo','erro_mse', 'erro_mae', 'r2', 'r2adj','top_features'])
+    modelos = modelos.sort_values(by=['r2adj'], ascending=False)
+    end = time.time()
+    print('Tempo de execução (minutos):')
+    print((end - start) / 60)
+    return modelos, df_predicoes
