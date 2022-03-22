@@ -3,13 +3,6 @@
 import pandas as pd
 import numpy as np
 from sklearn.feature_selection import VarianceThreshold
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.feature_selection import SelectFromModel
-from sklearn.feature_selection import SelectKBest, f_regression
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, mean_absolute_error
-from xgboost import XGBRegressor
 from feature_engine.imputation import MeanMedianImputer
 from feature_engine.imputation import ArbitraryNumberImputer
 from feature_engine.imputation import EndTailImputer
@@ -27,11 +20,6 @@ from reg_resampler import resampler
 from imblearn.over_sampling import SMOTE
 from scipy.special import boxcox, inv_boxcox, boxcox1p, inv_boxcox1p
 from sklearn.preprocessing import FunctionTransformer, MinMaxScaler
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor
-from sklearn.ensemble import  AdaBoostRegressor, GradientBoostingRegressor
-import time
-from sklearn.metrics import r2_score
 
 def dc_fillna_custom(X_train, lista_variaveis, forma, valor = None):
     """
@@ -72,9 +60,6 @@ def dc_fillna_custom(X_train, lista_variaveis, forma, valor = None):
     return train_t, imputer
  
 
-    
-    
-
 def dc_duplicatas(df, y):
     print('Número de registros antes da filtragem:' + str(len(df)))
     df.drop_duplicates(keep='first', inplace=True) 
@@ -82,34 +67,3 @@ def dc_duplicatas(df, y):
     dfy = pd.concat([df,y],axis=1, join='inner')
     return df, dfy.iloc[:,-1]
 
-def dc_nulos(dados):
-    lista=[]
-    for i in range(len(dados.columns)):
-        coluna = dados.iloc[:,i].name
-        tipo = dados.iloc[:,i].dtypes
-        nulos = dados.iloc[:,i].isnull().sum()
-        percent_nulos = (dados.iloc[:,i].isnull().sum())/len(dados)
-        lista.append([coluna, tipo, nulos, percent_nulos])
-
-    tabela = pd.DataFrame(lista, columns=['coluna','dtype','nulos', 'percent_nulos'])
-    tab_cat = tabela[(tabela.dtype == 'object') & (tabela.nulos > 0)]
-    tab_num = tabela[((tabela.dtype =='int64') | (tabela.dtype =='float64')) & (tabela.nulos > 0)]
-
-    lista_cat_nulos = list(tab_cat.coluna)
-    lista_num_nulos = list(tab_num.coluna)
-    return tabela, lista_cat_nulos, lista_num_nulos
-
-def dc_features_tipos(dados):
-    lista=[]
-    for i in range(len(dados.columns)):
-        coluna = dados.iloc[:,i].name
-        tipo = dados.iloc[:,i].dtypes
-        lista.append([coluna, tipo])
-
-    tabela = pd.DataFrame(lista, columns=['coluna','dtype'])
-    tab_cat = tabela[(tabela.dtype == 'object')]
-    tab_num = tabela[(tabela.dtype =='int64') | (tabela.dtype =='float64')]
-
-    lista_cat = list(tab_cat.coluna)
-    lista_num = list(tab_num.coluna)
-    return tabela, lista_cat, lista_num
