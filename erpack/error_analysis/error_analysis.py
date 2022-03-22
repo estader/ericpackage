@@ -44,8 +44,7 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target, m
     if modo == 'classifier':
        
         top_features = modelos.top_features.iloc[0]
-        y_pred = modelos.iloc[0,1].predict(X_val)
-        df_predicoes = pd.concat([y_pred, y_val.reset_index(drop=True)], axis=1, join='inner')
+        df_predicoes = pd.concat([df_predicoes, y_val.reset_index(drop=True)], axis=1, join='inner')
         df_predicoes = pd.concat([X_val[top_features].reset_index(drop=True), df_predicoes], axis=1)
 
         for i in list(modelos.tipo):
@@ -53,7 +52,7 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target, m
 
 
         plt.figure(figsize=(10,10))
-        cf_matrix = confusion_matrix(y_val, y_pred)
+        cf_matrix = confusion_matrix(y_val, df_predicoes[modelos.iloc[0,0]])
         labels = ['True Neg','False Pos','False Neg','True Pos']
         labels = np.asarray(labels).reshape(2,2)
         ax1 = sns.heatmap(cf_matrix, annot=labels, fmt='', cmap='Blues')
