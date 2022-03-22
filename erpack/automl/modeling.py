@@ -173,7 +173,7 @@ def auto_ml_classifier(X_train, X_test, y_train, y_test,
             
     df_predicoes = pd.concat(lista_predicoes, axis=1)
     modelos = pd.DataFrame(lista_modelos_construidos, columns=['tipo','modelo','precision', 'recall', 'f1', 'auc1','top_features'])
-    modelos = modelos.sort_values(by=['f1'], ascending=False)
+    #modelos = modelos.sort_values(by=['f1'], ascending=False)
     end = time.time()
     print('Tempo de execução (minutos):')
     print((end - start) / 60)
