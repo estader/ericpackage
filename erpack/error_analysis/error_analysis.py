@@ -2,6 +2,7 @@
 from mlxtend.evaluate import bias_variance_decomp
 import pandas as pd
 import seaborn as sns
+import numpy as np
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
@@ -42,7 +43,6 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target, m
         return melhores_pred, piores_pred
 
     if modo == 'classifier':
-       
         top_features = modelos.top_features.iloc[0]
         df_predicoes = pd.concat([df_predicoes, y_val.reset_index(drop=True)], axis=1, join='inner')
         df_predicoes = pd.concat([X_val[top_features].reset_index(drop=True), df_predicoes], axis=1)
@@ -51,12 +51,22 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target, m
             df_predicoes[i+'_real_dif'] = df_predicoes.apply(lambda x: abs(x[i] - x[target]), axis=1)
 
 
-        plt.figure(figsize=(10,10))
+        plt.figure(figsize=(7,7))
         cf_matrix = confusion_matrix(y_val, df_predicoes[modelos.iloc[0,0]])
-        labels = ['True Neg','False Pos','False Neg','True Pos']
+
+        group_names = ['True Neg','False Pos','False Neg','True Pos']
+        group_counts = ["{0:0.0f}".format(value) for value in
+                        cf_matrix.flatten()]
+
+        group_percentages = ["{0:.2%}".format(value) for value in
+                            cf_matrix.flatten()/np.sum(cf_matrix)]
+
+        labels = [f"{v1}\n{v2}\n{v3}" for v1, v2, v3 in
+                zip(group_names,group_counts,group_percentages)]
+
         labels = np.asarray(labels).reshape(2,2)
         ax1 = sns.heatmap(cf_matrix, annot=labels, fmt='', cmap='Blues')
-        ax1.set_title('Erros x faixa do target')
+        ax1.set_title('Matriz de confusão '+modelos.iloc[0,0])
 
         # acertos
         melhores_pred = df_predicoes.sort_values(modelos.iloc[0,0]+'_real_dif', ascending=True).head(10)
