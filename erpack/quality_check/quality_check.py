@@ -5,7 +5,7 @@ import numpy as np
 
 
 
-def dc_nulos(dados):
+def qc_nulos(dados):
     lista=[]
     for i in range(len(dados.columns)):
         coluna = dados.iloc[:,i].name
@@ -22,7 +22,7 @@ def dc_nulos(dados):
     lista_num_nulos = list(tab_num.coluna)
     return tabela, lista_cat_nulos, lista_num_nulos
 
-def dc_features_tipos(dados):
+def qc_features_tipos(dados):
     lista=[]
     for i in range(len(dados.columns)):
         coluna = dados.iloc[:,i].name

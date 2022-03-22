@@ -21,7 +21,7 @@ from imblearn.over_sampling import SMOTE
 from scipy.special import boxcox, inv_boxcox, boxcox1p, inv_boxcox1p
 from sklearn.preprocessing import FunctionTransformer, MinMaxScaler
 
-def qc_fillna_custom(X_train, lista_variaveis, forma, valor = None):
+def dc_fillna_custom(X_train, lista_variaveis, forma, valor = None):
     """
         Preenchimento de Missing:
             -> Média
@@ -60,7 +60,7 @@ def qc_fillna_custom(X_train, lista_variaveis, forma, valor = None):
     return train_t, imputer
  
 
-def qc_duplicatas(df, y):
+def dc_duplicatas(df, y):
     print('Número de registros antes da filtragem:' + str(len(df)))
     df.drop_duplicates(keep='first', inplace=True) 
     print('Número de registros depois da filtragem:' + str(len(df)))
