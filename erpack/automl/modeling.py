@@ -166,7 +166,7 @@ def auto_ml_classifier(X_train, X_test, y_train, y_test,
             precision = precision_score(y_test, y_pred, average=None)
             recall = recall_score(y_test, y_pred, average=None)
             f1 = f1_score(y_test, y_pred, average=None)
-            fpr, tpr, thresholds = roc_curve(y_test, y_pred, pos_label=2)
+            fpr, tpr, thresholds = roc_curve(y_test, y_pred, pos_label=None)
             auc1 = auc(fpr, tpr) 
             
             lista_modelos_construidos.append([i, classifier, precision , recall , f1 , auc1 , top_features])
