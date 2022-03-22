@@ -52,7 +52,7 @@ def report_features_erros_modelos(modelos, X_val, y_val, df_predicoes, target, m
 
 
         plt.figure(figsize=(10,10))
-        cf_matrix = confusion_matrix(y_val, modelos.tipo.iloc[0])
+        cf_matrix = confusion_matrix(y_val, modelos.iloc[0,1].predict(X_val))
         labels = ['True Neg','False Pos','False Neg','True Pos']
         labels = np.asarray(labels).reshape(2,2)
         ax1 = sns.heatmap(cf_matrix, annot=labels, fmt='', cmap='Blues')
